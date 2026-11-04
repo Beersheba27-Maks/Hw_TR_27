@@ -7,15 +7,11 @@ def intersection(l1: list[int], l2: list[int]) -> list[int]:
     intersection([1, 2, 3], [4, 5, 6])=> [];
     """
     result = []  
-    i = 0        
     
-    while i < len(l1):
-        element = l1[i] 
-
+    for element in l1:
         if element in l2:
             result.append(element)  
-        i += 1 
-        
+            
     return result
 
 
@@ -29,16 +25,11 @@ def union(l1: list[int], l2: list[int]) -> list[int]:
     union([1, 2, 3], [4, 5, 6])=> [1, 2, 3, 4, 5, 6]
     """   
     result = l1.copy()  
-    i = 0               
     
-    while i < len(l2):
-        element = l2[i] 
-        
+    for element in l2:
         if element not in result:
             result.append(element)  
             
-        i += 1  
-        
     return result  
 
 
@@ -52,15 +43,11 @@ def difference(l1: list[int], l2: list[int]) -> list[int]:
     difference([1, 2, 3], [4, 5, 6])=> [1, 2, 3]
     """
     result = [] 
-    i = 0        
     
-    while i < len(l1):
-        element = l1[i] 
-        
+    for element in l1:
         if element not in l2:
             result.append(element) 
             
-        i += 1 
     return result 
 
 
@@ -74,17 +61,13 @@ def symmetric_difference(l1: list[int], l2: list[int]) -> list[int]:
     """  
     result = []  
     
-    i = 0
-    while i < len(l1):
-        if l1[i] not in l2:
-            result.append(l1[i])
-        i += 1
+    for element in l1:
+        if element not in l2:
+            result.append(element)
    
-    j = 0
-    while j < len(l2):
-        if l2[j] not in l1:
-            result.append(l2[j])
-        j += 1
+    for element in l2:
+        if element not in l1:
+            result.append(element)
         
     return result  
 
@@ -100,17 +83,13 @@ def remove_positive_greater_or_negative_less(numbers: list[int],
     => [1, 2, -3, 10]
     """  
     result = []  
-    i = 0        
    
-    while i < len(numbers):
-        x = numbers[i]  
-       
+    for x in numbers:
         if (x > 0 and x > positive_lim) or (x < 0 and x < negative_lim):
             pass  
         else:
             result.append(x)  
             
-        i += 1         
     return result 
 
 
@@ -124,17 +103,14 @@ def max_with_negative_duplicate(numbers: list[int]) -> int:
     max_with_negative_duplicate([10, 20, -15, -11, 20]) => -1
     """
     max_val = -1 
-    i = 0         
+    numbers_set = set(numbers)
   
-    while i < len(numbers):
-        x = numbers[i] 
+    for x in numbers:
+        if x > 0:
+            if -x in numbers_set:
+                if max_val == -1 or x > max_val:
+                    max_val = x  
         
-       
-        if x > 0 and (-x in numbers):
-            
-            if max_val == -1 or x > max_val:
-                max_val = x  
-                
-        i += 1  
-        
-    return max_val  
+    return max_val
+
+
