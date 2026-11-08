@@ -8,10 +8,17 @@ def max_with_negative_duplicate(numbers: list[int]) -> int:
     Examples: max_with_negative_duplicate([-100, 20, 10, -10, 1, 1, 5, -30, -20, 100]) => 100
     max_with_negative_duplicate([10, 20, -15, -11, 20]) => -1
     """          
-    num_set = set(numbers)
-    valid_numbers = [abs(x) for x in numbers if abs(x) in num_set and -abs(x) in num_set]
+    seen = set()
+    max_val = -1
     
-    return max(valid_numbers) if valid_numbers else -1
+    for num in numbers:
+        if -num in seen:
+            abs_num = abs(num)
+            if abs_num > max_val:
+                max_val = abs_num
+        seen.add(num)
+        
+    return max_val
 
 def sumOfTwoExists(numbers: list[int], sum_val: int):
     """
@@ -22,20 +29,26 @@ def sumOfTwoExists(numbers: list[int], sum_val: int):
     sumOfTwoExists([1, -1, 40, 50, 0], 42) => False
     """ 
     seen = set()
+    i = 0
+    n = len(numbers)
     
-    for num in numbers:
+    while i < n:
+        num = numbers[i]
         target = sum_val - num  
         if target in seen:
             return True
         seen.add(num) 
+        i += 1
         
     return False
 
-def moveMaxToEnd(numbers: list[int], end_index: int) -> None:
-    
+def moveMaxToEnd(numbers: list[int], end_index: int) -> bool:
+    swapped = False
     for j in range(0, end_index):
         if numbers[j] > numbers[j + 1]:
             numbers[j], numbers[j + 1] = numbers[j + 1], numbers[j]
+            swapped = True
+    return swapped
 
 def bubble_sort(numbers: list[int]) -> None:
     """
@@ -50,8 +63,12 @@ def bubble_sort(numbers: list[int]) -> None:
     Common formula of the number of iterations for worst case is (n * (n - 1))/2
     """  
     n = len(numbers)
-    for i in range(n):
-        moveMaxToEnd(numbers, n - i - 1)
+    i = 0
+    while i < n:
+        swapped = moveMaxToEnd(numbers, n - i - 1)
+        if not swapped:
+            break
+        i += 1
 
 
 def remove_duplicates(numbers: list[int]) -> list[int]:
@@ -63,6 +80,14 @@ def remove_duplicates(numbers: list[int]) -> list[int]:
     new list [-1, 0, 100,  20, 80]
     """ 
     seen = set()
-    return [x for x in numbers if x not in seen and not seen.add(x)]
+    result = []
+    
+    for num in numbers:
+        if num not in seen:
+            seen.add(num)
+            result.append(num)
+            
+    return result
+
 
 
